@@ -1,0 +1,56 @@
+pg_instance:
+  dbtype: postgresql
+  dbname: bookscraper
+  host: pg_instance
+  # host: localhost
+  bind_server: 0.0.0.0
+  port: 5432
+  username: pgadmin
+  password: pgadmin
+  engine: sqlalchemy
+
+tables_config:
+  stg:
+    books:
+      url: VARCHAR(255)
+      name: VARCHAR(255)
+      img_url: VARCHAR(255)
+      price: DECIMAL
+      category: VARCHAR(255)
+      rating: INTEGER
+      product_description: TEXT
+      upc: VARCHAR(255)
+      product_type: VARCHAR(255)
+      price__excl__tax_: DECIMAL
+      price__incl__tax_: DECIMAL
+      tax: DECIMAL
+      availability: INTEGER
+      number_of_reviews: INTEGER
+      updated_at: TIMESTAMP
+  
+  dwh:
+    books:
+      id: SERIAL PRIMARY KEY
+      url: VARCHAR(255)
+      name: VARCHAR(255)
+      img_url: VARCHAR(255)
+      price: DECIMAL
+      category: VARCHAR(255)
+      rating: INTEGER
+      product_description: TEXT
+      upc: VARCHAR(255)
+      product_type: VARCHAR(255)
+      price__excl__tax_: DECIMAL
+      price__incl__tax_: DECIMAL
+      tax: DECIMAL
+      availability: INTEGER
+      number_of_reviews: INTEGER
+      updated_at: TIMESTAMP
+
+merges:
+  dwh:
+    books:
+      src: stg.books
+      tgt: dwh.books
+      merge_on: upc
+      
